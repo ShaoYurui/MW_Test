@@ -17,9 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.LeftStatusTextDisplay.text = @"Left Status:\n Not Connected";
-    self.RightStatusTextDisplay.text = @"Right Status:\n Not Connected";
-    _sis = [[MySwiftClass alloc] init];
+    self.LeftStatusTextDisplay.text = @"Left Status:\nNot Connected";
+    self.RightStatusTextDisplay.text = @"Right Status:\nNot Connected";
     
     _mwDevices = [[MWSensor alloc] init];
     _mwDevices = [_mwDevices getMwSensonrs];
@@ -28,27 +27,37 @@
 
 // Pressed connect button, start to connect two devices
 - (IBAction)ConnectButton:(id)sender {
-
-    [_sis printSome];
+    self.LeftStatusTextDisplay.text = @"Left Status:\nConnecting...";
+    self.RightStatusTextDisplay.text = @"Right Status:\nConnecting...";
     
-   // [_mwDevices fetchSavedMetawearWithCompletion:^(SensorType type){}];
-    
-//    [_mwDevices fetchSavedMetawearWithCompletion:^(SensorType type){
-//        dispatch_async(dispatch_get_main_queue(), ^{printf("%ld", (long)type);});
-//    }];
-         
-    [self pickMetawearSensor:SensorTypeLeft];
-    //[self pickMetawearSensor(.left)]
-    //[self pickMetawearSensor(.right)]
+    [_mwDevices fetchSavedMetawearWithCompletion:
+     ^(SensorType type){dispatch_async(dispatch_get_main_queue(), ^{
+        if(type == SensorTypeLeft)
+        {
+            self.LeftStatusTextDisplay.text = @"Left Status:\nConnected";
+        }
+        else if (type == SensorTypeRight)
+        {
+            self.RightStatusTextDisplay.text = @"Right Status:\nConnected";
+        }
+    });}];
 }
-
+/*
 - (void) pickMetawearSensor: (SensorType) type
 {
+    
     [_mwDevices resetConnectionWithType:type];
-    [_mwDevices scanMetawearWithType:type completion: ^void(){printf("%s",@"D");}];
-     //   self.LeftStatusTextDisplay.text = @"Left Status: \n Connecting...";
-     //   self.RightStatusTextDisplay.text = @"Right Status: \n Connecting...";}];//closure /lemda function
-    /*
+    [_mwDevices scanMetawearWithType:type completion:
+     ^{dispatch_async(dispatch_get_main_queue(), ^{
+        if(type == SensorTypeLeft)
+        {
+            self.LeftStatusTextDisplay.text = @"Left Status:\n Connected";
+        }
+        else if (type == SensorTypeRight)
+        {
+            self.RightStatusTextDisplay.text = @"Right Status:\n Connected";
+        }
+    });}];
     
     int counter = 10;// no of seconds to wait for scan
     messageAlertHelper(title: "Scan", message: "Scanning for \(type.text) Metawear sensor. If not found after \(counter) seconds, please retry")
@@ -63,7 +72,7 @@
             timer.invalidate()
             self.mwDevices.stopScan()
         }
-    }*/
-}
+    }
+}*/
 
 @end

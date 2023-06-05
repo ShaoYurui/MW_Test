@@ -141,6 +141,7 @@ class MWSensor : NSObject
                     self?.sensor[type] = device
                     self?.peripheralID[type] = device.peripheral.identifier.uuidString
                     device.remember()
+                    
                     completion()
                 }
             }
@@ -158,7 +159,7 @@ class MWSensor : NSObject
                 print("Connect to device failed: \(error)")
             }
             else {
-                print("Connected to device \(String(describing: device.mac)) \(device.peripheral.identifier)")
+                print("Connected to device \(String(describing: device.mac)) \(device.peripheral.identifier.uuidString)")
                 
                 device.apiAccessQueue.async {
                     // blink LED to identify sensor
