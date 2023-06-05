@@ -1,0 +1,22 @@
+PODS:
+  - Bolts-Swift (1.5.0)
+  - MetaWear (4.0.0):
+    - MetaWear/Core (= 4.0.0)
+  - MetaWear/Core (4.0.0):
+    - Bolts-Swift (~> 1)
+
+DEPENDENCIES:
+  - MetaWear
+
+SPEC REPOS:
+  trunk:
+    - Bolts-Swift
+    - MetaWear
+
+SPEC CHECKSUMS:
+  Bolts-Swift: afbbaf8c8186e7f769be4afa656949c14087ba44
+  MetaWear: 26e6a18edf8f138f3cc479c06b1811bb76ab9bac
+
+PODFILE CHECKSUM: 347d05e14d2607d9ae462d71adee67b5ec055dc9
+
+COCOAPODS: 1.12.1
