@@ -18,10 +18,16 @@ class MWSensor : NSObject
         var text: String {
             return String(describing: self)
         }
+        var ledColor: MblMwLedColor {
+            switch self {
+            case .left: return MBL_MW_LED_COLOR_GREEN
+            case .right: return MBL_MW_LED_COLOR_BLUE
+            }
+        }
     }
     
     enum MeterType: CaseIterable {
-        case accelerator, gyroscope, magnetometer
+        case accelerometer, gyroscope, magnetometer
         var text: String {
             return String(describing: self)
         }
@@ -39,10 +45,11 @@ class MWSensor : NSObject
         var z:Float
     }
     var startTime:Date = Date()
-    var accelerator:[SensorType:[TXYZ]] = [.left:[], .right:[]]
+    var accelerometer:[SensorType:[TXYZ]] = [.left:[], .right:[]]
     var gyroscope:[SensorType:[TXYZ]] = [.left:[], .right:[]]
     var magnetometer:[SensorType:[TXYZ]] = [.left:[], .right:[]]
     var streamingCleanup:[OpaquePointer:()->()] = [:]
+    var isRecording:Bool = false
     
     // merged data set
     struct AGM {
@@ -51,7 +58,7 @@ class MWSensor : NSObject
         var mx,my,mz:Float!
     }
     struct TAGM {
-        var time:Int  // time in millisecond
+        var time:Int!  // time in millisecond
         var ax,ay,az:Float!
         var gx,gy,gz:Float!
         var mx,my,mz:Float!
@@ -60,8 +67,7 @@ class MWSensor : NSObject
     var accGyroMag:[SensorType:[TAGM]] = [.left:[], .right:[]]
     
     // bridging data for C closure required for Metawear API to refer to self instance
-    @objc
-    class BridgeData : NSObject {
+    class BridgeData {
         var type:SensorType
         var mwSensor: MWSensor
         init(type: SensorType, mwSensor: MWSensor) {
@@ -84,12 +90,19 @@ class MWSensor : NSObject
         return AssessmentSettings.sharedManager.mwSensors;
     }
     
+    @objc
+    func getAccGyroMag()-> String
+    {
+        return accGyroMag.description
+        //return [MWSensor.SensorType.left:[1,2,3], MWSensor.SensorType.right:[3,2,1]];
+    }
+    
+    
     /// Fetch saved Metawear devices
     /// - Parameter completion: closure to run after succesful connection
     @objc
     func fetchSavedMetawear(completion: @escaping (SensorType)->Void )
     {
-        print("runing fetchSavedMetawear")
         let savedSensorID:[SensorType:String?] = [
             .left: AssessmentSettings.sharedManager.preferences[.leftSensor] as? String,
             .right: AssessmentSettings.sharedManager.preferences[.rightSensor] as? String
@@ -108,7 +121,7 @@ class MWSensor : NSObject
                     let peripheralID = device.peripheral.identifier.uuidString
                     if let type = savedSensorID.first(where: {$0.value == peripheralID})?.key {
                         if self?.MWConnected[type] != true {  // attempt to connect if not connected
-                            self?.connectMetawear(device: device) {
+                            self?.connectMetawear(device: device, ledColor: type.ledColor) {
                                 self?.MWConnected[type] = true
                                 self?.sensor[type] = device
                                 self?.peripheralID[type] = peripheralID
@@ -124,10 +137,8 @@ class MWSensor : NSObject
     
     /// Scan for Metawear devices
     /// - Parameter completion: closure to run after succesful connection
-    @objc
     func scanMetawear(type: SensorType, completion: @escaping ()->Void )
     {
-        print("running scanMetawear")
         MetaWearScanner.shared.startScan(allowDuplicates: true) { [weak self] device in
             // We found a MetaWear board, see if it is close
             print("Found a \(device.name) device: RSSI = \(device.rssi)")
@@ -135,13 +146,12 @@ class MWSensor : NSObject
                // Hooray! We found a MetaWear board, so stop scanning for more
                MetaWearScanner.shared.stopScan()
                // Connect to the board we found
-                self?.connectMetawear(device: device) {
+                self?.connectMetawear(device: device, ledColor: type.ledColor) {
                     // set connection state
                     self?.MWConnected[type] = true
                     self?.sensor[type] = device
                     self?.peripheralID[type] = device.peripheral.identifier.uuidString
                     device.remember()
-                    
                     completion()
                 }
             }
@@ -151,7 +161,7 @@ class MWSensor : NSObject
     /// Connect to a Metawear device
     /// - Parameter device: Metawear instance
     /// - Parameter completion: closure to run upon successful connection
-    func connectMetawear(device: MetaWear, completion: @escaping ()->Void )
+    func connectMetawear(device: MetaWear, ledColor: MblMwLedColor, completion: @escaping ()->Void )
     {
         device.connectAndSetup().continueWith { t in
             if let error = t.error {
@@ -166,7 +176,7 @@ class MWSensor : NSObject
                     var pattern = MblMwLedPattern()
                     mbl_mw_led_load_preset_pattern(&pattern, MBL_MW_LED_PRESET_PULSE)
                     mbl_mw_led_stop_and_clear(device.board)
-                    mbl_mw_led_write_pattern(device.board, &pattern, MBL_MW_LED_COLOR_GREEN)
+                    mbl_mw_led_write_pattern(device.board, &pattern, ledColor)
                     mbl_mw_led_play(device.board)
                 }
                 
@@ -180,7 +190,6 @@ class MWSensor : NSObject
     }
     
     /// reset connection for Metawear device
-    @objc
     func resetConnection(type: SensorType)
     {
         if MWConnected[type] == true {
@@ -193,7 +202,6 @@ class MWSensor : NSObject
     }
     
     /// Stop scanning for devices
-    @objc
     func stopScan()
     {
         MetaWearScanner.shared.stopScan()
@@ -208,7 +216,6 @@ class MWSensor : NSObject
     }
     
     /// Save current state into AssessmentSettings preference keys
-    @objc
     func savePreferences()
     {
         if let sensor = sensor[.left] {
@@ -228,11 +235,12 @@ class MWSensor : NSObject
         }
     }
     
-    func startAccelerator()
+    func startAccelerator(type: SensorType)
     {
-        accelerator = [.left:[], .right:[]]
-        for (type,device) in sensor {
-            // configure accelerator streaming
+        if let device = sensor[type] {
+//        }
+//        for (type,device) in sensor {
+            // configure accelerometer streaming
 //            print("startAccelerator: \(type.text) \(String(describing: device.mac))")
             device.apiAccessQueue.async {
                 mbl_mw_acc_bosch_set_range(device.board, MBL_MW_ACC_BOSCH_RANGE_4G)
@@ -243,7 +251,7 @@ class MWSensor : NSObject
                 mbl_mw_datasignal_subscribe(signal, bridge(obj: self.bdPacks[type]!)) { (context, obj) in
                     let acceleration: MblMwCartesianFloat = obj!.pointee.valueAs()
                     let dataPackIn : BridgeData = bridge(ptr: context!)
-                    dataPackIn.mwSensor.addMeterData(dataPackIn.type, .accelerator, time: obj!.pointee.timestamp, record: acceleration)
+                    dataPackIn.mwSensor.addMeterData(dataPackIn.type, .accelerometer, time: obj!.pointee.timestamp, record: acceleration)
                     
                 }
                 // start streaming data signal
@@ -259,10 +267,10 @@ class MWSensor : NSObject
         }
     }
     
-    func startGyroscope()
+    func startGyroscope(type: SensorType)
     {
-        gyroscope = [.left:[], .right:[]]
-        for (type,device) in sensor {
+        if let device = sensor[type] {
+//        for (type,device) in sensor {
             // configure gyroscope streaming
 //            print("startGyroscope: \(type.text) \(String(describing: device.mac))")
             device.apiAccessQueue.async {
@@ -289,14 +297,14 @@ class MWSensor : NSObject
         }
     }
     
-    func startMagnetometer()
+    func startMagnetometer(type: SensorType)
     {
-        magnetometer = [.left:[], .right:[]]
-        for (type,device) in sensor {
+        if let device = sensor[type] {
+//        for (type,device) in sensor {
             // configure magnetometer streaming
 //            print("startMagnetometer: \(type.text) \(String(describing: device.mac))")
             device.apiAccessQueue.async {
-                mbl_mw_mag_bmm150_configure(device.board, 9, 15, MBL_MW_MAG_BMM150_ODR_25Hz)
+                mbl_mw_mag_bmm150_configure(device.board, 7, 7, MBL_MW_MAG_BMM150_ODR_30Hz)
                 // subscribe to data signal
                 let signal = mbl_mw_mag_bmm150_get_b_field_data_signal(device.board)!
                 
@@ -317,56 +325,99 @@ class MWSensor : NSObject
         }
     }
     
-    func startMetering()
+    /// Start meters in MetaWear sensor
+    @objc
+    func startMetering(type: SensorType)
     {
-        startTime = Date()
-        startAccelerator()
-        startGyroscope()
-        startMagnetometer()
+        startAccelerator(type: type)
+        startGyroscope(type: type)
+        startMagnetometer(type: type)
+        print("MWDevice \(type.text) meter started")
     }
     
+    /// Stop meters in MetaWear sensor
+    @objc
     func stopMetering()
     {
         while !streamingCleanup.isEmpty {
             streamingCleanup.popFirst()?.value()
         }
-        mergeData()
+        print("MWDevice meter stopped")
     }
     
+    /// Reset clock and meter data array, then start data collection
+    @objc
+    func startRecording()
+    {
+        accelerometer = [.left:[], .right:[]]
+        gyroscope = [.left:[], .right:[]]
+        magnetometer = [.left:[], .right:[]]
+        startTime = Date()
+        isRecording = true
+    }
+    
+    /// Stop data collection and merge data
+    @objc
+    func stopRecording()
+    {
+        isRecording = false
+        mergeData()
+        print(accGyroMag)
+    }
+    
+    /// When is recording, collect data through data signal subscription and append to corresponding meter data array
+    /// - Parameter type: side of limb sensor (left, right)
+    /// - Parameter meter: meter type (accelerometer, gyroscope, magnetometer
+    /// - Parameter time: timestamp from sensor
+    /// - Parameter record: 3-axis data from sensor
     func addMeterData(_ type: SensorType, _ meter: MeterType, time: Date, record: MblMwCartesianFloat)
     {
-        var newRecord = TXYZ(time: Int(time.timeIntervalSince(startTime)*1000), x: record.x, y: record.y, z: record.z)
-//        newRecord.time = Int(newRecord.time/20) * 20  // round up to next 20ms time mark
-        switch meter {
-        case .accelerator:
-            // output data in mm/s^2 unit, input is g
-            newRecord.x *= 9810 // *9.81m/s^2 * 1000mm/m
-            newRecord.y *= 9810
-            newRecord.z *= 9810
-            accelerator[type]?.append(newRecord)
-        case .gyroscope:
-            // output data in degree/sec, input is the same
-            gyroscope[type]?.append(newRecord)
-            // update gaitExercise if exists and accelerator data not empty
-            if !accelerator[type]!.isEmpty {
-                // gaitExercise?.doLegAnalysis(side: type.rawValue, ay: accelerator[type]!.last!.y, gz: newRecord.z, time: newRecord.time)
+//        print("\(type.text) \(meter.text) \(record)")
+        if isRecording {
+            var newRecord = TXYZ(time: Int(time.timeIntervalSince(startTime)*1000), x: record.x, y: record.y, z: record.z)
+            //        newRecord.time = Int(newRecord.time/20) * 20  // round up to next 20ms time mark
+            switch meter {
+            case .accelerometer:
+                // output data in mm/s^2 unit, input is g
+                newRecord.x *= 9810 // *9.81m/s^2 * 1000mm/m
+                newRecord.y *= 9810
+                newRecord.z *= 9810
+                accelerometer[type]?.append(newRecord)
+            case .gyroscope:
+                // output data in degree/sec, input is the same
+                gyroscope[type]?.append(newRecord)
+                // update gaitExercise if exists and accelerometer data not empty
+//                if !accelerometer[type]!.isEmpty {
+//                    gaitExercise?.doLegAnalysis(side: type.rawValue, ay: accelerometer[type]!.last!.y, gz: newRecord.z, time: newRecord.time)
+//                }
+            case .magnetometer:
+                // output data in milli Gauss, input is micro Tesla
+                newRecord.x *= 10 // *1/10^6 T/uT * 10^4 G/T * 10^3 mG/G
+                newRecord.y *= 10
+                newRecord.z *= 10
+                magnetometer[type]?.append(newRecord)
             }
-        case .magnetometer:
-            // output data in milli Gauss, input is micro Tesla
-            newRecord.x *= 10 // *1/10^6 T/uT * 10^4 G/T * 10^3 mG/G
-            newRecord.y *= 10
-            newRecord.z *= 10
-            magnetometer[type]?.append(newRecord)
+            //        print("\(type.text) \(meter.text) \(newRecord)")
         }
-//        print("\(type.text) \(meter.text) \(newRecord)")
     }
     
+    /// Merge data of accelerometer, gyroscope, magnetometer by time
+    /// Update into instance variable:
+    /// accGyroMagRaw :  actual sensor data merged in a sparse matrix with nil as missing value
+    /// accGyroMag: interpolated sensor data merged in a 50-Hz or 20ms interval matrix without missing value
     func mergeData() {
-//        accGyroMag[.left] = accelerator[.left]! + gyroscope[.left]! + magnetometer[.left]!
+//        accGyroMag[.left] = accelerometer[.left]! + gyroscope[.left]! + magnetometer[.left]!
         var buf:[Int:AGM]
         for type in SensorType.allCases {
+            if accelerometer[type]!.isEmpty || gyroscope[type]!.isEmpty || magnetometer[type]!.isEmpty {
+                print("WARNING: Not enough data to merge on \(type.text) side")
+                print("Accelerometer data count: \(accelerometer[type]!.count)")
+                print("Gyroscope data count: \(gyroscope[type]!.count)")
+                print("Magnetometer data count: \(magnetometer[type]!.count)")
+                return
+            }
             buf = [:]
-            accelerator[type]?.forEach{ rec in
+            accelerometer[type]?.forEach{ rec in
                 if buf[rec.time] != nil {
                     buf[rec.time]?.ax = rec.x
                     buf[rec.time]?.ay = rec.y
@@ -408,17 +459,17 @@ class MWSensor : NSObject
         }
         // generate a uniform ranged data, starts from time when all 3 readings are present across both sides
         // align to 50Hz (every 20ms)
-        var rangeBegin:Int = max(accelerator[.left]!.first?.time ?? 0,
+        var rangeBegin:Int = max(accelerometer[.left]!.first?.time ?? 0,
                              gyroscope[.left]!.first?.time ?? 0,
                              magnetometer[.left]!.first?.time ?? 0,
-                             accelerator[.right]!.first?.time ?? 0,
+                             accelerometer[.right]!.first?.time ?? 0,
                              gyroscope[.right]!.first?.time ?? 0,
                              magnetometer[.right]!.first?.time ?? 0)
         rangeBegin = (((rangeBegin - 1) / 20) + 1 ) * 20
-        var rangeEnd:Int = min(accelerator[.left]!.last?.time ?? Int.max,
+        var rangeEnd:Int = min(accelerometer[.left]!.last?.time ?? Int.max,
                            gyroscope[.left]!.last?.time ?? Int.max,
                            magnetometer[.left]!.last?.time ?? Int.max,
-                           accelerator[.right]!.last?.time ?? Int.max,
+                           accelerometer[.right]!.last?.time ?? Int.max,
                            gyroscope[.right]!.last?.time ?? Int.max,
                            magnetometer[.right]!.last?.time ?? Int.max)
         rangeEnd = (rangeEnd / 20) * 20
@@ -428,28 +479,13 @@ class MWSensor : NSObject
             var axyz, gxyz, mxyz : TXYZ?
             accGyroMag[type] = []
             for t in stride(from: rangeBegin, through: rangeEnd, by: 20) {
-                (ai, axyz) = interpolateXYZArr(arr: accelerator[type]!, initial_index: ai, time: t)
+                (ai, axyz) = interpolateXYZArr(arr: accelerometer[type]!, initial_index: ai, time: t)
                 (gi, gxyz) = interpolateXYZArr(arr: gyroscope[type]!, initial_index: gi, time: t)
                 (mi, mxyz) = interpolateXYZArr(arr: magnetometer[type]!, initial_index: mi, time: t)
                 accGyroMag[type]?.append(TAGM(time: t,
                                                ax: axyz?.x, ay: axyz?.y, az: axyz?.z,
                                                gx: gxyz?.x, gy: gxyz?.y, gz: gxyz?.z,
                                                mx: mxyz?.x, my: mxyz?.y, mz: mxyz?.z))
-//                axyz = interpolateXYZ(d1: accelerator[type]![ai], d2: accelerator[type]![ai+1], time: t)
-//                while axyz == nil && ai < accelerator[type]!.count - 2 {
-//                    ai += 1
-//                    axyz = interpolateXYZ(d1: accelerator[type]![ai], d2: accelerator[type]![ai+1], time: t)
-//                }
-//                gxyz = interpolateXYZ(d1: gyroscope[type]![gi], d2: gyroscope[type]![gi+1], time: t)
-//                while gxyz == nil && gi < gyroscope[type]!.count - 2 {
-//                    gi += 1
-//                    gxyz = interpolateXYZ(d1: gyroscope[type]![gi], d2: gyroscope[type]![gi+1], time: t)
-//                }
-//                mxyz = interpolateXYZ(d1: magnetometer[type]![mi], d2: magnetometer[type]![mi+1], time: t)
-//                while mxyz == nil && mi < magnetometer[type]!.count - 2 {
-//                    mi += 1
-//                    mxyz = interpolateXYZ(d1: magnetometer[type]![mi], d2: magnetometer[type]![mi+1], time: t)
-//                }
             }
             
         }
@@ -491,5 +527,3 @@ class MWSensor : NSObject
         return (i, xyz)
     }
 }
-
-

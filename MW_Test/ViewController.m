@@ -40,39 +40,25 @@
         {
             self.RightStatusTextDisplay.text = @"Right Status:\nConnected";
         }
+        [self->_mwDevices startMeteringWithType:type];
     });}];
+    
 }
-/*
-- (void) pickMetawearSensor: (SensorType) type
-{
-    
-    [_mwDevices resetConnectionWithType:type];
-    [_mwDevices scanMetawearWithType:type completion:
-     ^{dispatch_async(dispatch_get_main_queue(), ^{
-        if(type == SensorTypeLeft)
-        {
-            self.LeftStatusTextDisplay.text = @"Left Status:\n Connected";
-        }
-        else if (type == SensorTypeRight)
-        {
-            self.RightStatusTextDisplay.text = @"Right Status:\n Connected";
-        }
-    });}];
-    
-    int counter = 10;// no of seconds to wait for scan
-    messageAlertHelper(title: "Scan", message: "Scanning for \(type.text) Metawear sensor. If not found after \(counter) seconds, please retry")
 
-    Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-        counter = counter - 1
-        print("\(type.text) scan: \(counter)")
-        if self.mwDevices.MWConnected[type] == true || counter == 0 {
-            DispatchQueue.main.async {
-                button.isEnabled = true
-            }
-            timer.invalidate()
-            self.mwDevices.stopScan()
-        }
-    }
-}*/
+- (IBAction)StartRecordingButton:(id)sender {
+    [_mwDevices startRecording];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSTimer scheduledTimerWithTimeInterval:1.0
+                                        repeats:YES
+                                          block:^(NSTimer *timer){
+            self.DataTextDisplay.text=[self.mwDevices getAccGyroMag];
+        }];
+    });
+}
 
+- (IBAction)StopRecordingButton:(id)sender {
+    [_mwDevices stopRecording];
+    [_mwDevices stopMetering];
+}
 @end
