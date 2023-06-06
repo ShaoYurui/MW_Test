@@ -26,6 +26,14 @@ class MWSensor : NSObject
         }
     }
     
+    @objc
+    enum DataType : Int, CaseIterable {
+        case time,ax,ay,az,gx,gy,gz,mx,my,mz
+        var text: String {
+            return String(describing: self)
+        }
+    }
+    
     enum MeterType: CaseIterable {
         case accelerometer, gyroscope, magnetometer
         var text: String {
@@ -90,11 +98,47 @@ class MWSensor : NSObject
         return AssessmentSettings.sharedManager.mwSensors;
     }
     
+    /*
+     {
+     left  : [{ax:1,ay:2...},{},{}...]
+     right : [{},{},{}...]
+     }
+     */
     @objc
-    func getAccGyroMag()-> String
+    func getAccGyroMagString()-> String
     {
         return accGyroMag.description
-        //return [MWSensor.SensorType.left:[1,2,3], MWSensor.SensorType.right:[3,2,1]];
+    }
+    
+    @objc
+    func getAccGyroMag()-> [[[Any]]]
+    {
+        var array = [[[Any]]]()
+        for type in MWSensor.SensorType.allCases
+        {
+            let list = accGyroMag[type]
+            var array_for_type = [[Any]]()
+            for elementTAGM in list!
+            {
+                var array_for_TAGM = [Any]()
+                array_for_TAGM.append(elementTAGM.time)
+                array_for_TAGM.append(elementTAGM.ax)
+                array_for_TAGM.append(elementTAGM.ay)
+                array_for_TAGM.append(elementTAGM.az)
+                array_for_TAGM.append(elementTAGM.gx)
+                array_for_TAGM.append(elementTAGM.gy)
+                array_for_TAGM.append(elementTAGM.gz)
+                array_for_TAGM.append(elementTAGM.mx)
+                array_for_TAGM.append(elementTAGM.my)
+                array_for_TAGM.append(elementTAGM.mz)
+                
+                array_for_type.append(array_for_TAGM)
+            }
+            array.append(array_for_type)
+        }
+        
+        return array
+        
     }
     
     
@@ -362,7 +406,7 @@ class MWSensor : NSObject
     {
         isRecording = false
         mergeData()
-        print(accGyroMag)
+        //print(accGyroMag)
     }
     
     /// When is recording, collect data through data signal subscription and append to corresponding meter data array
