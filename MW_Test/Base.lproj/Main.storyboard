@@ -68,13 +68,23 @@
                                     <action selector="StopRecordingButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uz7-zl-ETK"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jXN-8w-CS1">
+                                <rect key="frame" x="206" y="227" width="150" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="AEZ-oz-4FV">
+                                <rect key="frame" x="455" y="227" width="150" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <outlet property="DataTextDisplay" destination="Y9Y-Zt-MFd" id="XRv-1r-dg1"/>
+                        <outlet property="LeftProgressBar" destination="jXN-8w-CS1" id="0qU-N5-Fef"/>
                         <outlet property="LeftStatusTextDisplay" destination="BZY-yj-zbA" id="Pjw-G7-Piv"/>
+                        <outlet property="RightProgressBar" destination="AEZ-oz-4FV" id="oXp-aP-Jck"/>
                         <outlet property="RightStatusTextDisplay" destination="Mbg-az-zyD" id="xCL-0i-SVv"/>
                     </connections>
                 </viewController>

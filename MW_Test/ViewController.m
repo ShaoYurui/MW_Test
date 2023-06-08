@@ -23,6 +23,18 @@
     _mwDevices = [[MWSensor alloc] init];
     _mwDevices = [_mwDevices getMwSensonrs];
     
+    _LeftProgressBar.progress = 0;
+    _RightProgressBar.progress = 0;
+    
+    [self ConnectDevices];
+}
+
+- (void) windowShouldClose{
+    [_mwDevices stopMetering];
+}
+
+- (void) ConnectDevices
+{
     self.LeftStatusTextDisplay.text = @"Left Status:\nConnecting...";
     self.RightStatusTextDisplay.text = @"Right Status:\nConnecting...";
     
@@ -37,40 +49,40 @@
             self.RightStatusTextDisplay.text = @"Right Status:\nConnected";
         }
         [self->_mwDevices startMeteringWithType:type];
+        [self->_mwDevices readBatteryLevel];
+        [self UpdateBatteryLevel];
     });}];
 }
 
 // Pressed connect button, start to connect two devices
 - (IBAction)ConnectButton:(id)sender {
-    self.LeftStatusTextDisplay.text = @"Left Status:\nConnecting...";
-    self.RightStatusTextDisplay.text = @"Right Status:\nConnecting...";
-    
-    [_mwDevices fetchSavedMetawearWithCompletion:
-     ^(SensorType type){dispatch_async(dispatch_get_main_queue(), ^{
-        if(type == SensorTypeLeft)
-        {
-            self.LeftStatusTextDisplay.text = @"Left Status:\nConnected";
-        }
-        else if (type == SensorTypeRight)
-        {
-            self.RightStatusTextDisplay.text = @"Right Status:\nConnected";
-        }
-        [self->_mwDevices startMeteringWithType:type];
-    });}];
-    
+    [self ConnectDevices];
 }
 
 - (IBAction)StartRecordingButton:(id)sender {
     [_mwDevices startRecording];
     self.DataTextDisplay.text = @"Recording Data....";
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [NSTimer scheduledTimerWithTimeInterval:1.0
-//                                        repeats:YES
-//                                          block:^(NSTimer *timer){
-//            self.DataTextDisplay.text=[self.mwDevices getAccGyroMagString];
-//            [self.mwDevices getAccGyroMag];
-//        }];
-//    });
+}
+
+- (void) UpdateBatteryLevel
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+            [NSTimer scheduledTimerWithTimeInterval:1.0
+                                            repeats:YES
+                                              block:^(NSTimer *timer)
+             {
+                float leftLevel = (float)[self->_mwDevices getBatteryLevelWithType:SensorTypeLeft]/100.0;
+                float rightLevel = (float)[self->_mwDevices getBatteryLevelWithType:SensorTypeRight]/100.0;
+                
+                self->_LeftProgressBar.progress = leftLevel;
+                self->_RightProgressBar.progress = rightLevel;
+                
+                if(leftLevel != 0 && rightLevel != 0)
+                {
+                    [timer invalidate];
+                }
+            }];
+        });
 }
 
 - (NSString *) GetStringData: (NSArray *)list
@@ -93,7 +105,8 @@
     return result;
 }
 
-- (IBAction)StopRecordingButton:(id)sender {
+- (IBAction)StopRecordingButton:(id)sender
+{
     [_mwDevices stopRecording];
     [_mwDevices stopMetering];
     self.DataTextDisplay.text = @"Stopped";
@@ -101,4 +114,5 @@
     //NSLog(@"%@",array[SensorTypeLeft][0][DataTypeAx]);
     self.DataTextDisplay.text = [self GetStringData:array[SensorTypeLeft]];
 }
+
 @end

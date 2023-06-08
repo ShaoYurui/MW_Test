@@ -44,6 +44,8 @@ class MWSensor : NSObject
     var sensor:[SensorType:MetaWear] = [:]
     var peripheralID:[SensorType:String] = [:]
     var MWConnected: [SensorType:Bool] = [:]
+    var batteryLevel: [SensorType:Int] = [:]
+    
     
     // data collections
     struct TXYZ {
@@ -111,17 +113,17 @@ class MWSensor : NSObject
     }
     
     @objc
-    func getAccGyroMag()-> [[[Any]]]
+    func getAccGyroMag()-> [[[Float]]] //[Left][0][ax]
     {
-        var array = [[[Any]]]()
+        var array = [[[Float]]]()
         for type in MWSensor.SensorType.allCases
         {
             let list = accGyroMag[type]
-            var array_for_type = [[Any]]()
+            var array_for_type = [[Float]]()
             for elementTAGM in list!
             {
-                var array_for_TAGM = [Any]()
-                array_for_TAGM.append(elementTAGM.time)
+                var array_for_TAGM = [Float]()
+                array_for_TAGM.append(Float(elementTAGM.time))
                 array_for_TAGM.append(elementTAGM.ax)
                 array_for_TAGM.append(elementTAGM.ay)
                 array_for_TAGM.append(elementTAGM.az)
@@ -147,6 +149,7 @@ class MWSensor : NSObject
     @objc
     func fetchSavedMetawear(completion: @escaping (SensorType)->Void )
     {
+        
         let savedSensorID:[SensorType:String?] = [
             .left: AssessmentSettings.sharedManager.preferences[.leftSensor] as? String,
             .right: AssessmentSettings.sharedManager.preferences[.rightSensor] as? String
@@ -178,6 +181,34 @@ class MWSensor : NSObject
             }
         }
     }
+    
+    @objc
+    func readBatteryLevel()
+    {
+        print("getting battery level")
+        for type in SensorType.allCases
+        {
+            let board = self.sensor[type]?.board
+            self.sensor[type]?.apiAccessQueue.async
+            {
+                let battery_signal = mbl_mw_settings_get_battery_state_data_signal(board)
+                mbl_mw_datasignal_subscribe(battery_signal!, bridge(obj: self.bdPacks[type]!))
+                { (context, data) in
+                    let state = data!.pointee.valueAs() as MblMwBatteryState
+                    let dataPackIn : BridgeData = bridge(ptr: context!)
+                    dataPackIn.mwSensor.batteryLevel[dataPackIn.type] = Int(state.charge)
+                }
+                mbl_mw_datasignal_read(battery_signal)
+            }
+        }
+    }
+    
+    @objc
+    func getBatteryLevel(type : SensorType) -> Int
+    {
+        return (self.batteryLevel[type]) ?? 0
+    }
+    
     
     /// Scan for Metawear devices
     /// - Parameter completion: closure to run after succesful connection
@@ -215,7 +246,8 @@ class MWSensor : NSObject
             else {
                 print("Connected to device \(String(describing: device.mac)) \(device.peripheral.identifier.uuidString)")
                 
-                device.apiAccessQueue.async {
+                device.apiAccessQueue.async
+                {
                     // blink LED to identify sensor
                     var pattern = MblMwLedPattern()
                     mbl_mw_led_load_preset_pattern(&pattern, MBL_MW_LED_PRESET_PULSE)
@@ -236,7 +268,8 @@ class MWSensor : NSObject
     /// reset connection for Metawear device
     func resetConnection(type: SensorType)
     {
-        if MWConnected[type] == true {
+        if MWConnected[type] == true
+        {
             sensor[type]?.cancelConnection()
             sensor[type]?.forget()
         }
