@@ -10,6 +10,8 @@
 		286D3A7A2A2C5126004E9568 /* MWSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D3A792A2C5126004E9568 /* MWSensor.swift */; };
 		286D3A7C2A2C5173004E9568 /* AssessmentSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D3A7B2A2C5173004E9568 /* AssessmentSettings.swift */; };
 		286D3A812A2C67D1004E9568 /* MySwiftClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D3A802A2C67D1004E9568 /* MySwiftClass.swift */; };
+		2878FD902A36B84000039612 /* MwSesnsorConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2878FD8F2A36B84000039612 /* MwSesnsorConnectionViewController.m */; };
+		2878FD922A36B85100039612 /* MwSesnsorConnectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2878FD912A36B85100039612 /* MwSesnsorConnectionViewController.h */; };
 		28ED11272A2882E7006AC791 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11262A2882E7006AC791 /* AppDelegate.m */; };
 		28ED112A2A2882E7006AC791 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11292A2882E7006AC791 /* SceneDelegate.m */; };
 		28ED112D2A2882E7006AC791 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED112C2A2882E7006AC791 /* ViewController.m */; };
@@ -25,6 +27,8 @@
 		286D3A7B2A2C5173004E9568 /* AssessmentSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AssessmentSettings.swift; path = Support/AssessmentSettings.swift; sourceTree = "<group>"; };
 		286D3A7F2A2C631D004E9568 /* MW_Test-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MW_Test-Bridging-Header.h"; sourceTree = "<group>"; };
 		286D3A802A2C67D1004E9568 /* MySwiftClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySwiftClass.swift; sourceTree = "<group>"; };
+		2878FD8F2A36B84000039612 /* MwSesnsorConnectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MwSesnsorConnectionViewController.m; sourceTree = "<group>"; };
+		2878FD912A36B85100039612 /* MwSesnsorConnectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MwSesnsorConnectionViewController.h; sourceTree = "<group>"; };
 		28ED11222A2882E7006AC791 /* MW_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MW_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28ED11252A2882E7006AC791 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		28ED11262A2882E7006AC791 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 				28ED11292A2882E7006AC791 /* SceneDelegate.m */,
 				28ED112B2A2882E7006AC791 /* ViewController.h */,
 				28ED112C2A2882E7006AC791 /* ViewController.m */,
+				2878FD912A36B85100039612 /* MwSesnsorConnectionViewController.h */,
+				2878FD8F2A36B84000039612 /* MwSesnsorConnectionViewController.m */,
 				28ED112E2A2882E7006AC791 /* Main.storyboard */,
 				28ED11312A2882E8006AC791 /* Assets.xcassets */,
 				28ED11332A2882E8006AC791 /* LaunchScreen.storyboard */,
@@ -118,6 +124,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2878FD922A36B85100039612 /* MwSesnsorConnectionViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +232,7 @@
 				286D3A7C2A2C5173004E9568 /* AssessmentSettings.swift in Sources */,
 				28ED11382A2882E8006AC791 /* main.m in Sources */,
 				286D3A7A2A2C5126004E9568 /* MWSensor.swift in Sources */,
+				2878FD902A36B84000039612 /* MwSesnsorConnectionViewController.m in Sources */,
 				28ED112A2A2882E7006AC791 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -100,12 +100,12 @@ class MWSensor : NSObject
         return AssessmentSettings.sharedManager.mwSensors;
     }
     
-    /*
-     {
-     left  : [{ax:1,ay:2...},{},{}...]
-     right : [{},{},{}...]
-     }
-     */
+    @objc
+    func getMwConnected(type: SensorType)-> Bool
+    {
+        return MWConnected[type] ?? false
+    }
+    
     @objc
     func getAccGyroMagString()-> String
     {
@@ -149,6 +149,7 @@ class MWSensor : NSObject
     @objc
     func fetchSavedMetawear(completion: @escaping (SensorType)->Void )
     {
+        fetchFromUserDefaults()
         
         let savedSensorID:[SensorType:String?] = [
             .left: AssessmentSettings.sharedManager.preferences[.leftSensor] as? String,
@@ -182,6 +183,21 @@ class MWSensor : NSObject
         }
     }
     
+    func fetchFromUserDefaults ()
+    {
+        if UserDefaults.standard.object(forKey: "MwSensorLeftSavedUuidString") != nil
+        {
+            AssessmentSettings.sharedManager.preferences[.leftSensor] =
+            UserDefaults.standard.string(forKey: "MwSensorLeftSavedUuidString")
+        }
+        
+        if UserDefaults.standard.object(forKey: "MwSensorRightSavedUuidString") != nil
+        {
+            AssessmentSettings.sharedManager.preferences[.rightSensor] =
+            UserDefaults.standard.string(forKey: "MwSensorRightSavedUuidString")
+        }
+    }
+    
     @objc
     func readBatteryLevel()
     {
@@ -212,6 +228,7 @@ class MWSensor : NSObject
     
     /// Scan for Metawear devices
     /// - Parameter completion: closure to run after succesful connection
+    @objc
     func scanMetawear(type: SensorType, completion: @escaping ()->Void )
     {
         MetaWearScanner.shared.startScan(allowDuplicates: true) { [weak self] device in
@@ -266,6 +283,7 @@ class MWSensor : NSObject
     }
     
     /// reset connection for Metawear device
+    @objc
     func resetConnection(type: SensorType)
     {
         if MWConnected[type] == true
@@ -279,12 +297,14 @@ class MWSensor : NSObject
     }
     
     /// Stop scanning for devices
+    @objc
     func stopScan()
     {
         MetaWearScanner.shared.stopScan()
     }
     
     /// get current state of devices
+    @objc
     func updateStatus()
     {
         for (type,device) in sensor {
@@ -293,10 +313,12 @@ class MWSensor : NSObject
     }
     
     /// Save current state into AssessmentSettings preference keys
+    @objc
     func savePreferences()
     {
         if let sensor = sensor[.left] {
             AssessmentSettings.sharedManager.preferences[.leftSensor] = sensor.peripheral.identifier.uuidString
+            UserDefaults.standard.set(sensor.peripheral.identifier.uuidString, forKey: "MwSensorLeftSavedUuidString")
             print("Saved left device: \(sensor.peripheral.identifier.uuidString)")
         }
         else {
@@ -305,6 +327,7 @@ class MWSensor : NSObject
         
         if let sensor = sensor[.right] {
             AssessmentSettings.sharedManager.preferences[.rightSensor] = sensor.peripheral.identifier.uuidString
+            UserDefaults.standard.set(sensor.peripheral.identifier.uuidString, forKey: "MwSensorRightSavedUuidString")
             print("Saved right device: \(sensor.peripheral.identifier.uuidString)")
         }
         else {

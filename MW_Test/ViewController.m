@@ -19,25 +19,19 @@
     [super viewDidLoad];
     self.LeftStatusTextDisplay.text = @"Left Status:\nNot Connected";
     self.RightStatusTextDisplay.text = @"Right Status:\nNot Connected";
-    
+
     _mwDevices = [[MWSensor alloc] init];
     _mwDevices = [_mwDevices getMwSensonrs];
-    
+
     _LeftProgressBar.progress = 0;
     _RightProgressBar.progress = 0;
-    
-    [self ConnectDevices];
-}
-
-- (void) windowShouldClose{
-    [_mwDevices stopMetering];
 }
 
 - (void) ConnectDevices
 {
     self.LeftStatusTextDisplay.text = @"Left Status:\nConnecting...";
     self.RightStatusTextDisplay.text = @"Right Status:\nConnecting...";
-    
+
     [_mwDevices fetchSavedMetawearWithCompletion:
      ^(SensorType type){dispatch_async(dispatch_get_main_queue(), ^{
         if(type == SensorTypeLeft)
@@ -48,7 +42,8 @@
         {
             self.RightStatusTextDisplay.text = @"Right Status:\nConnected";
         }
-        [self->_mwDevices startMeteringWithType:type];
+        //[self->_mwDevices startMeteringWithType:type];
+        [self->_mwDevices stopMetering];
         [self->_mwDevices readBatteryLevel];
         [self UpdateBatteryLevel];
     });}];
@@ -60,6 +55,8 @@
 }
 
 - (IBAction)StartRecordingButton:(id)sender {
+    [self->_mwDevices startMeteringWithType:SensorTypeLeft];
+    [self->_mwDevices startMeteringWithType:SensorTypeRight];
     [_mwDevices startRecording];
     self.DataTextDisplay.text = @"Recording Data....";
 }
@@ -73,10 +70,10 @@
              {
                 float leftLevel = (float)[self->_mwDevices getBatteryLevelWithType:SensorTypeLeft]/100.0;
                 float rightLevel = (float)[self->_mwDevices getBatteryLevelWithType:SensorTypeRight]/100.0;
-                
+
                 self->_LeftProgressBar.progress = leftLevel;
                 self->_RightProgressBar.progress = rightLevel;
-                
+
                 if(leftLevel != 0 && rightLevel != 0)
                 {
                     [timer invalidate];
@@ -112,7 +109,7 @@
     self.DataTextDisplay.text = @"Stopped";
     NSArray *array = [self.mwDevices getAccGyroMag];
     //NSLog(@"%@",array[SensorTypeLeft][0][DataTypeAx]);
-    self.DataTextDisplay.text = [self GetStringData:array[SensorTypeLeft]];
+    //self.DataTextDisplay.text = [self GetStringData:array[SensorTypeLeft]];
 }
 
 @end

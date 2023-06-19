@@ -10,7 +10,7 @@ import MetaWear
 
 // Global variables
 
-struct AssessmentSettings
+class AssessmentSettings
 {
     static var sharedManager = AssessmentSettings()
     
@@ -24,9 +24,10 @@ struct AssessmentSettings
     enum PreferenceKeys {
         case webURL, biometric, apiToken, useMetawear, leftSensor, rightSensor
     }
-    var preferences : [PreferenceKeys: Any]! =
-    [.leftSensor:"2A3A73D5-E782-468C-45F3-08FB846F7404" ,
-     .rightSensor:"662191AB-877B-7B0F-AC54-84303C2250FB"]
+    var preferences : [PreferenceKeys: Any]! = [:]
+    //[.leftSensor:"2A3A73D5-E782-468C-45F3-08FB846F7404" ,
+    // .rightSensor:"662191AB-877B-7B0F-AC54-84303C2250FB"]
+    
     
     // for file upload
     // let uploader = Uploader()
