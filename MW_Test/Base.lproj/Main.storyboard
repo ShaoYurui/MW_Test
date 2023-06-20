@@ -17,25 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vTo-W6-BuW">
-                                <rect key="frame" x="316" y="310" width="178" height="67"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Connect"/>
-                                <connections>
-                                    <action selector="ConnectButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vUQ-2Q-Yce"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Text" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZY-yj-zbA">
-                                <rect key="frame" x="161" y="151" width="240" height="68"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Text" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Y-Zt-MFd">
-                                <rect key="frame" x="76" y="425" width="658" height="387"/>
+                                <rect key="frame" x="160" y="274" width="240" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -43,7 +26,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Text" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mbg-az-zyD">
-                                <rect key="frame" x="409" y="151" width="240" height="68"/>
+                                <rect key="frame" x="408" y="274" width="240" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -51,7 +34,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTe-9Z-ziY">
-                                <rect key="frame" x="210" y="844" width="143" height="35"/>
+                                <rect key="frame" x="213" y="700" width="143" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Start Recording"/>
@@ -60,27 +43,28 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8K-xc-M5O">
-                                <rect key="frame" x="459" y="844" width="142" height="35"/>
+                                <rect key="frame" x="462" y="700" width="142" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Stop Recording"/>
                                 <connections>
                                     <action selector="StopRecordingButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uz7-zl-ETK"/>
+                                    <segue destination="UDz-qI-m3A" kind="show" id="3Le-mg-3Cm"/>
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jXN-8w-CS1">
-                                <rect key="frame" x="206" y="227" width="150" height="4"/>
+                                <rect key="frame" x="205" y="350" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="AEZ-oz-4FV">
-                                <rect key="frame" x="455" y="227" width="150" height="4"/>
+                                <rect key="frame" x="454" y="350" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVY-38-mzt">
-                                <rect key="frame" x="281" y="949" width="248" height="35"/>
+                                <rect key="frame" x="263" y="422" width="242" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Switch to Meta Wear Snesors"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Connect Meta Wear Sensors"/>
                                 <connections>
                                     <segue destination="Fs0-Rj-8xo" kind="modal" id="Xa6-JC-Ow6"/>
                                 </connections>
@@ -91,7 +75,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="cYf-Tx-dJX"/>
                     <connections>
-                        <outlet property="DataTextDisplay" destination="Y9Y-Zt-MFd" id="XRv-1r-dg1"/>
                         <outlet property="LeftProgressBar" destination="jXN-8w-CS1" id="0qU-N5-Fef"/>
                         <outlet property="LeftStatusTextDisplay" destination="BZY-yj-zbA" id="Pjw-G7-Piv"/>
                         <outlet property="RightProgressBar" destination="AEZ-oz-4FV" id="oXp-aP-Jck"/>
@@ -111,7 +94,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Left Sensor" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8FG-1k-eSV">
-                                <rect key="frame" x="140" y="295" width="240" height="68"/>
+                                <rect key="frame" x="140" y="414" width="240" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -119,7 +102,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Right Sensor" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgh-ib-Wys">
-                                <rect key="frame" x="388" y="295" width="240" height="68"/>
+                                <rect key="frame" x="388" y="414" width="240" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -127,15 +110,15 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3gi-h7-eBg">
-                                <rect key="frame" x="185" y="371" width="150" height="4"/>
+                                <rect key="frame" x="185" y="490" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0I6-Ub-2pT">
-                                <rect key="frame" x="434" y="371" width="150" height="4"/>
+                                <rect key="frame" x="434" y="490" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="epZ-0c-ywf">
-                                <rect key="frame" x="185" y="404" width="150" height="35"/>
+                                <rect key="frame" x="185" y="523" width="150" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
@@ -144,7 +127,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sbn-6F-blA">
-                                <rect key="frame" x="434" y="403" width="150" height="35"/>
+                                <rect key="frame" x="434" y="522" width="150" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
@@ -153,13 +136,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pj9-9e-aL7">
-                                <rect key="frame" x="358" y="494" width="51" height="35"/>
+                                <rect key="frame" x="358" y="613" width="51" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="exit"/>
                                 <connections>
                                     <action selector="ExitButtonPressed:" destination="Fs0-Rj-8xo" eventType="touchUpInside" id="u4P-9z-2jj"/>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="K8K-wE-YD6"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="K8K-wE-YD6"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -176,9 +159,51 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T42-k0-PHE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="763.28125" y="3.5156249999999996"/>
+            <point key="canvasLocation" x="848" y="4"/>
+        </scene>
+        <!--Mw Sensor Summary View Controller-->
+        <scene sceneID="mKq-SR-fIs">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="UDz-qI-m3A" customClass="MwSensorSummaryViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gvw-Lp-v4j">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OF7-cb-bVx">
+                                <rect key="frame" x="359" y="922" width="51" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="exit"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="Ame-RS-ZQf"/>
+                                </connections>
+                            </button>
+                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NNm-lU-R0z">
+                                <rect key="frame" x="35" y="45" width="698" height="780"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fGa-ER-plD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8ZQ-GW-PBP"/>
+                    <connections>
+                        <outlet property="csvSummary" destination="NNm-lU-R0z" id="fYv-Jf-QxO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a9y-0n-Bg2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="19.53125" y="758.7890625"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="K8K-wE-YD6"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -91,7 +91,8 @@ class MWSensor : NSObject
     ]
     
     // GaitExercise update
-    // weak var gaitExercise:GaitExercise?
+    var gaitExercise:GaitExercise = GaitExercise()
+    
     
     @objc
     func getMwSensonrs()-> MWSensor
@@ -453,6 +454,7 @@ class MWSensor : NSObject
         gyroscope = [.left:[], .right:[]]
         magnetometer = [.left:[], .right:[]]
         startTime = Date()
+        gaitExercise = GaitExercise()
         isRecording = true
     }
     
@@ -462,7 +464,26 @@ class MWSensor : NSObject
     {
         isRecording = false
         mergeData()
-        //print(accGyroMag)
+    }
+    
+    @objc
+    func writeAssessmentToFile(filePath : String, fileName: String) -> URL
+    {
+        let writer:CsvWriter = CsvWriter()
+        let fileUrl = writer.writeAssessmentSummary(assessmentDict: gaitExercise.gaitResults,
+                                                    filePath: filePath,
+                                                    fileName: fileName)
+        return fileUrl
+    }
+    
+    @objc
+    func writeDataToFile(filePath : String, fileName: String, type : SensorType)
+    {
+        let writer:CsvWriter = CsvWriter()
+        writer.writeMetawear(mwSensor: getMwSensonrs(),
+                                type: type,
+                                filePath:
+                                filePath,fileName: fileName)
     }
     
     /// When is recording, collect data through data signal subscription and append to corresponding meter data array
@@ -487,9 +508,9 @@ class MWSensor : NSObject
                 // output data in degree/sec, input is the same
                 gyroscope[type]?.append(newRecord)
                 // update gaitExercise if exists and accelerometer data not empty
-//                if !accelerometer[type]!.isEmpty {
-//                    gaitExercise?.doLegAnalysis(side: type.rawValue, ay: accelerometer[type]!.last!.y, gz: newRecord.z, time: newRecord.time)
-//                }
+                if !accelerometer[type]!.isEmpty {
+                    gaitExercise.doLegAnalysis(side: type.rawValue, ay: accelerometer[type]!.last!.y, gz: newRecord.z, time: newRecord.time)
+                }
             case .magnetometer:
                 // output data in milli Gauss, input is micro Tesla
                 newRecord.x *= 10 // *1/10^6 T/uT * 10^4 G/T * 10^3 mG/G

@@ -9,8 +9,8 @@ import Foundation
 import MetaWear
 
 // Global variables
-
-class AssessmentSettings
+@objc
+class AssessmentSettings : NSObject
 {
     static var sharedManager = AssessmentSettings()
     
@@ -38,5 +38,10 @@ class AssessmentSettings
     // for Metawear sensors
     let mwSensors = MWSensor()
     
+    @objc
+    func getMwSensors() -> MWSensor
+    {
+        return self.mwSensors
+    }
 }
 
