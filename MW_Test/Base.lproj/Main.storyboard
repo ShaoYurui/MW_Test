@@ -33,25 +33,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTe-9Z-ziY">
-                                <rect key="frame" x="213" y="700" width="143" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Start Recording"/>
-                                <connections>
-                                    <action selector="StartRecordingButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G7N-mL-lqh"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8K-xc-M5O">
-                                <rect key="frame" x="462" y="700" width="142" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Stop Recording"/>
-                                <connections>
-                                    <action selector="StopRecordingButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uz7-zl-ETK"/>
-                                    <segue destination="UDz-qI-m3A" kind="show" id="3Le-mg-3Cm"/>
-                                </connections>
-                            </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jXN-8w-CS1">
                                 <rect key="frame" x="205" y="350" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -66,7 +47,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Connect Meta Wear Sensors"/>
                                 <connections>
-                                    <segue destination="Fs0-Rj-8xo" kind="modal" id="Xa6-JC-Ow6"/>
+                                    <action selector="ConnectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LCc-oC-mYt"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -83,18 +64,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="20.74074074074074" y="3.8888888888888888"/>
+            <point key="canvasLocation" x="7" y="4"/>
         </scene>
         <!--Mw Sesnsor Connection View Controller-->
         <scene sceneID="rrs-UK-ihM">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="Fs0-Rj-8xo" customClass="MwSesnsorConnectionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MwSesnsorConnectionViewController" modalPresentationStyle="fullScreen" id="Fs0-Rj-8xo" customClass="MwSesnsorConnectionViewController" customModule="MW_Test" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XbE-V1-s6o">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Left Sensor" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8FG-1k-eSV">
-                                <rect key="frame" x="140" y="414" width="240" height="68"/>
+                                <rect key="frame" x="140" y="287" width="240" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -102,7 +83,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Right Sensor" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgh-ib-Wys">
-                                <rect key="frame" x="388" y="414" width="240" height="68"/>
+                                <rect key="frame" x="388" y="287" width="240" height="68"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -110,15 +91,15 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3gi-h7-eBg">
-                                <rect key="frame" x="185" y="490" width="150" height="4"/>
+                                <rect key="frame" x="185" y="363" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0I6-Ub-2pT">
-                                <rect key="frame" x="434" y="490" width="150" height="4"/>
+                                <rect key="frame" x="434" y="363" width="150" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="epZ-0c-ywf">
-                                <rect key="frame" x="185" y="523" width="150" height="35"/>
+                                <rect key="frame" x="185" y="396" width="150" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
@@ -127,7 +108,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sbn-6F-blA">
-                                <rect key="frame" x="434" y="522" width="150" height="35"/>
+                                <rect key="frame" x="434" y="395" width="150" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
@@ -136,13 +117,22 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pj9-9e-aL7">
-                                <rect key="frame" x="358" y="613" width="51" height="35"/>
+                                <rect key="frame" x="67" y="72" width="51" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="exit"/>
                                 <connections>
                                     <action selector="ExitButtonPressed:" destination="Fs0-Rj-8xo" eventType="touchUpInside" id="u4P-9z-2jj"/>
                                     <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="K8K-wE-YD6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDw-n1-18Q">
+                                <rect key="frame" x="338" y="576" width="93" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Continue"/>
+                                <connections>
+                                    <segue destination="Lvw-T7-dYb" kind="show" id="a5j-4G-vNK"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -159,12 +149,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T42-k0-PHE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="848" y="4"/>
+            <point key="canvasLocation" x="847.65625" y="3.5156249999999996"/>
         </scene>
         <!--Mw Sensor Summary View Controller-->
         <scene sceneID="mKq-SR-fIs">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="UDz-qI-m3A" customClass="MwSensorSummaryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MwSensorSummaryViewController" modalPresentationStyle="fullScreen" id="UDz-qI-m3A" customClass="MwSensorSummaryViewController" customModule="MW_Test" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gvw-Lp-v4j">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -198,7 +188,58 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a9y-0n-Bg2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="19.53125" y="758.7890625"/>
+            <point key="canvasLocation" x="2378" y="4"/>
+        </scene>
+        <!--Mw Sensor Video Recorder View Controller-->
+        <scene sceneID="eBn-T8-Pac">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="Lvw-T7-dYb" customClass="MwSensorVideoRecorderViewController" customModule="MW_Test" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="soU-bF-wxa">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QgM-dq-SBr" userLabel="CameraView">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lb-6D-Pce" userLabel="Button">
+                                <rect key="frame" x="349" y="918" width="70" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Iw-R3-9Eo">
+                                        <rect key="frame" x="5" y="5" width="60" height="60"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <connections>
+                                            <action selector="recordButtonPressed:" destination="Lvw-T7-dYb" eventType="touchUpInside" id="C02-oA-aAi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="3Iw-R3-9Eo" firstAttribute="top" secondItem="5lb-6D-Pce" secondAttribute="top" constant="5" id="ES9-jw-Dfj"/>
+                                    <constraint firstItem="3Iw-R3-9Eo" firstAttribute="leading" secondItem="5lb-6D-Pce" secondAttribute="leading" constant="5" id="Fe7-zF-HJG"/>
+                                    <constraint firstAttribute="bottom" secondItem="3Iw-R3-9Eo" secondAttribute="bottom" constant="5" id="KBf-Fj-MEu"/>
+                                    <constraint firstAttribute="height" constant="70" id="RzX-b6-0FJ"/>
+                                    <constraint firstAttribute="width" constant="70" id="hk5-jV-QHf"/>
+                                    <constraint firstAttribute="trailing" secondItem="3Iw-R3-9Eo" secondAttribute="trailing" constant="5" id="x8L-Xt-JvJ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="uxM-ku-jrg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="5lb-6D-Pce" firstAttribute="centerX" secondItem="soU-bF-wxa" secondAttribute="centerX" id="5jA-QM-Peb"/>
+                            <constraint firstItem="5lb-6D-Pce" firstAttribute="top" secondItem="uxM-ku-jrg" secondAttribute="top" constant="918" id="FEW-SB-W9Q"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="c5Z-8C-2Di"/>
+                    <connections>
+                        <outlet property="CameraView" destination="QgM-dq-SBr" id="dXb-XX-6RU"/>
+                        <outlet property="recordButtonLabel" destination="3Iw-R3-9Eo" id="3yv-zi-duA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y5x-W1-s7o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1612.5" y="3.5156249999999996"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -207,6 +248,9 @@
     <resources>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

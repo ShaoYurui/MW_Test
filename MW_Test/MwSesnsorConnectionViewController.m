@@ -116,7 +116,7 @@
     // tries to read battery level from sensors for every 1 second,
     // until we sucessfully get the readings
     dispatch_async(dispatch_get_main_queue(), ^{
-            [NSTimer scheduledTimerWithTimeInterval:1.0
+            [NSTimer scheduledTimerWithTimeInterval:0.2
                                             repeats:YES
                                               block:^(NSTimer *timer)
              {

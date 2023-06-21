@@ -27,8 +27,9 @@ class AssessmentSettings : NSObject
     var preferences : [PreferenceKeys: Any]! = [:]
     //[.leftSensor:"2A3A73D5-E782-468C-45F3-08FB846F7404" ,
     // .rightSensor:"662191AB-877B-7B0F-AC54-84303C2250FB"]
+    var dateTimeString: String = ""
     
-    
+    let filesManager = FilesManager()
     // for file upload
     // let uploader = Uploader()
     
@@ -38,10 +39,5 @@ class AssessmentSettings : NSObject
     // for Metawear sensors
     let mwSensors = MWSensor()
     
-    @objc
-    func getMwSensors() -> MWSensor
-    {
-        return self.mwSensors
-    }
 }
 

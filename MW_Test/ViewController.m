@@ -30,6 +30,14 @@
     [self FetchDevices];
 }
 
+- (void) OpenMwSensorConnectionView
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MwSesnsorConnectionViewController *nextViewController = [storyboard instantiateViewControllerWithIdentifier:@"MwSesnsorConnectionViewController"];
+    [self presentViewController:nextViewController animated:YES completion:nil];
+
+}
+
 - (void) FetchDevices
 {
     self.LeftStatusTextDisplay.text = @"Left Status:\nConnecting...";
@@ -52,13 +60,6 @@
     });}];
 }
 
-
-- (IBAction)StartRecordingButton:(id)sender {
-    [self->_mwDevices startMeteringWithType:SensorTypeLeft];
-    [self->_mwDevices startMeteringWithType:SensorTypeRight];
-    [_mwDevices startRecording];
-    self.DataTextDisplay.text = @"Recording Data....";
-}
 
 - (void) UpdateBatteryLevel
 {
@@ -101,15 +102,10 @@
     return result;
 }
 
-- (IBAction)StopRecordingButton:(id)sender
-{
-    [_mwDevices stopRecording];
-    [_mwDevices stopMetering];
-    self.DataTextDisplay.text = @"Stopped";
-    //NSArray *array = [self.mwDevices getAccGyroMag];
-    //NSLog(@"%@",array[SensorTypeLeft][0][DataTypeAx]);
-    //self.DataTextDisplay.text = [self GetStringData:array[SensorTypeLeft]];
 
+
+- (IBAction)ConnectButtonPressed:(id)sender {
+    [self OpenMwSensorConnectionView];
 }
 
 @end

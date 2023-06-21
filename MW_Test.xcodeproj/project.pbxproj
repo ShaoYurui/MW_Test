@@ -9,14 +9,11 @@
 /* Begin PBXBuildFile section */
 		286D3A7A2A2C5126004E9568 /* MWSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D3A792A2C5126004E9568 /* MWSensor.swift */; };
 		286D3A7C2A2C5173004E9568 /* AssessmentSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D3A7B2A2C5173004E9568 /* AssessmentSettings.swift */; };
-		286D3A812A2C67D1004E9568 /* MySwiftClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286D3A802A2C67D1004E9568 /* MySwiftClass.swift */; };
-		2878FD902A36B84000039612 /* MwSesnsorConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2878FD8F2A36B84000039612 /* MwSesnsorConnectionViewController.m */; };
-		2878FD922A36B85100039612 /* MwSesnsorConnectionViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2878FD912A36B85100039612 /* MwSesnsorConnectionViewController.h */; };
 		28CB2EBF2A40239000314378 /* GaitExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CB2EBE2A40239000314378 /* GaitExercise.swift */; };
-		28CB2EC12A402A0000314378 /* MwSensorSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28CB2EC02A402A0000314378 /* MwSensorSummaryViewController.m */; };
 		28CB2EC42A402FC200314378 /* CsvWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CB2EC32A402FC200314378 /* CsvWriter.swift */; };
 		28CB2EC62A40304E00314378 /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CB2EC52A40304E00314378 /* FilesManager.swift */; };
 		28CB2ECC2A40694000314378 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28CB2ECB2A40694000314378 /* WebKit.framework */; };
+		28CB2ECE2A416F0200314378 /* MwSensorVideoRecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CB2ECD2A416F0200314378 /* MwSensorVideoRecorderViewController.swift */; };
 		28ED11272A2882E7006AC791 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11262A2882E7006AC791 /* AppDelegate.m */; };
 		28ED112A2A2882E7006AC791 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11292A2882E7006AC791 /* SceneDelegate.m */; };
 		28ED112D2A2882E7006AC791 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED112C2A2882E7006AC791 /* ViewController.m */; };
@@ -24,6 +21,9 @@
 		28ED11322A2882E8006AC791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28ED11312A2882E8006AC791 /* Assets.xcassets */; };
 		28ED11352A2882E8006AC791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28ED11332A2882E8006AC791 /* LaunchScreen.storyboard */; };
 		28ED11382A2882E8006AC791 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11372A2882E8006AC791 /* main.m */; };
+		28F5C1852A4185AD002BCDA5 /* MwSensorSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C1842A4185AD002BCDA5 /* MwSensorSummaryViewController.swift */; };
+		28F5C1872A419090002BCDA5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C1862A419090002BCDA5 /* RecordButton.swift */; };
+		28F5C1892A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C1882A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift */; };
 		F4FA645AEEA792FF518166E6 /* libPods-MW_Test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5142A10B4167E9239DDE203C /* libPods-MW_Test.a */; };
 /* End PBXBuildFile section */
 
@@ -31,15 +31,11 @@
 		286D3A792A2C5126004E9568 /* MWSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MWSensor.swift; sourceTree = "<group>"; };
 		286D3A7B2A2C5173004E9568 /* AssessmentSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssessmentSettings.swift; sourceTree = "<group>"; };
 		286D3A7F2A2C631D004E9568 /* MW_Test-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MW_Test-Bridging-Header.h"; sourceTree = "<group>"; };
-		286D3A802A2C67D1004E9568 /* MySwiftClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySwiftClass.swift; sourceTree = "<group>"; };
-		2878FD8F2A36B84000039612 /* MwSesnsorConnectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MwSesnsorConnectionViewController.m; sourceTree = "<group>"; };
-		2878FD912A36B85100039612 /* MwSesnsorConnectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MwSesnsorConnectionViewController.h; sourceTree = "<group>"; };
 		28CB2EBE2A40239000314378 /* GaitExercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GaitExercise.swift; sourceTree = "<group>"; };
-		28CB2EC02A402A0000314378 /* MwSensorSummaryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MwSensorSummaryViewController.m; sourceTree = "<group>"; };
-		28CB2EC22A402A2000314378 /* MwSensorSummaryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MwSensorSummaryViewController.h; sourceTree = "<group>"; };
 		28CB2EC32A402FC200314378 /* CsvWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CsvWriter.swift; sourceTree = "<group>"; };
 		28CB2EC52A40304E00314378 /* FilesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 		28CB2ECB2A40694000314378 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		28CB2ECD2A416F0200314378 /* MwSensorVideoRecorderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MwSensorVideoRecorderViewController.swift; sourceTree = "<group>"; };
 		28ED11222A2882E7006AC791 /* MW_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MW_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28ED11252A2882E7006AC791 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		28ED11262A2882E7006AC791 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -52,6 +48,9 @@
 		28ED11342A2882E8006AC791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28ED11362A2882E8006AC791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28ED11372A2882E8006AC791 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		28F5C1842A4185AD002BCDA5 /* MwSensorSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MwSensorSummaryViewController.swift; sourceTree = "<group>"; };
+		28F5C1862A419090002BCDA5 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		28F5C1882A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MwSesnsorConnectionViewController.swift; sourceTree = "<group>"; };
 		44E1EEB1B1A5D69894373C23 /* Pods-MW_Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MW_Test.debug.xcconfig"; path = "Target Support Files/Pods-MW_Test/Pods-MW_Test.debug.xcconfig"; sourceTree = "<group>"; };
 		5142A10B4167E9239DDE203C /* libPods-MW_Test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MW_Test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6794D34963DB540D6EB6CC /* Pods-MW_Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MW_Test.release.xcconfig"; path = "Target Support Files/Pods-MW_Test/Pods-MW_Test.release.xcconfig"; sourceTree = "<group>"; };
@@ -78,6 +77,7 @@
 				28CB2EBE2A40239000314378 /* GaitExercise.swift */,
 				286D3A7B2A2C5173004E9568 /* AssessmentSettings.swift */,
 				286D3A792A2C5126004E9568 /* MWSensor.swift */,
+				28F5C1862A419090002BCDA5 /* RecordButton.swift */,
 			);
 			path = MwSensor;
 			sourceTree = "<group>";
@@ -111,16 +111,14 @@
 				28ED11292A2882E7006AC791 /* SceneDelegate.m */,
 				28ED112B2A2882E7006AC791 /* ViewController.h */,
 				28ED112C2A2882E7006AC791 /* ViewController.m */,
-				2878FD912A36B85100039612 /* MwSesnsorConnectionViewController.h */,
-				2878FD8F2A36B84000039612 /* MwSesnsorConnectionViewController.m */,
-				28CB2EC22A402A2000314378 /* MwSensorSummaryViewController.h */,
-				28CB2EC02A402A0000314378 /* MwSensorSummaryViewController.m */,
+				28F5C1882A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift */,
+				28CB2ECD2A416F0200314378 /* MwSensorVideoRecorderViewController.swift */,
+				28F5C1842A4185AD002BCDA5 /* MwSensorSummaryViewController.swift */,
 				28ED112E2A2882E7006AC791 /* Main.storyboard */,
 				28ED11312A2882E8006AC791 /* Assets.xcassets */,
 				28ED11332A2882E8006AC791 /* LaunchScreen.storyboard */,
 				28ED11362A2882E8006AC791 /* Info.plist */,
 				28ED11372A2882E8006AC791 /* main.m */,
-				286D3A802A2C67D1004E9568 /* MySwiftClass.swift */,
 			);
 			path = MW_Test;
 			sourceTree = "<group>";
@@ -150,7 +148,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2878FD922A36B85100039612 /* MwSesnsorConnectionViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,15 +250,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				28ED112D2A2882E7006AC791 /* ViewController.m in Sources */,
-				286D3A812A2C67D1004E9568 /* MySwiftClass.swift in Sources */,
 				28ED11272A2882E7006AC791 /* AppDelegate.m in Sources */,
 				286D3A7C2A2C5173004E9568 /* AssessmentSettings.swift in Sources */,
 				28CB2EC42A402FC200314378 /* CsvWriter.swift in Sources */,
+				28F5C1872A419090002BCDA5 /* RecordButton.swift in Sources */,
 				28ED11382A2882E8006AC791 /* main.m in Sources */,
 				286D3A7A2A2C5126004E9568 /* MWSensor.swift in Sources */,
+				28CB2ECE2A416F0200314378 /* MwSensorVideoRecorderViewController.swift in Sources */,
 				28CB2EBF2A40239000314378 /* GaitExercise.swift in Sources */,
-				28CB2EC12A402A0000314378 /* MwSensorSummaryViewController.m in Sources */,
-				2878FD902A36B84000039612 /* MwSesnsorConnectionViewController.m in Sources */,
+				28F5C1892A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift in Sources */,
+				28F5C1852A4185AD002BCDA5 /* MwSensorSummaryViewController.swift in Sources */,
 				28ED112A2A2882E7006AC791 /* SceneDelegate.m in Sources */,
 				28CB2EC62A40304E00314378 /* FilesManager.swift in Sources */,
 			);

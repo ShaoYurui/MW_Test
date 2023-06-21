@@ -107,42 +107,6 @@ class MWSensor : NSObject
         return MWConnected[type] ?? false
     }
     
-    @objc
-    func getAccGyroMagString()-> String
-    {
-        return accGyroMag.description
-    }
-    
-    @objc
-    func getAccGyroMag()-> [[[Float]]] //[Left][0][ax]
-    {
-        var array = [[[Float]]]()
-        for type in MWSensor.SensorType.allCases
-        {
-            let list = accGyroMag[type]
-            var array_for_type = [[Float]]()
-            for elementTAGM in list!
-            {
-                var array_for_TAGM = [Float]()
-                array_for_TAGM.append(Float(elementTAGM.time))
-                array_for_TAGM.append(elementTAGM.ax)
-                array_for_TAGM.append(elementTAGM.ay)
-                array_for_TAGM.append(elementTAGM.az)
-                array_for_TAGM.append(elementTAGM.gx)
-                array_for_TAGM.append(elementTAGM.gy)
-                array_for_TAGM.append(elementTAGM.gz)
-                array_for_TAGM.append(elementTAGM.mx)
-                array_for_TAGM.append(elementTAGM.my)
-                array_for_TAGM.append(elementTAGM.mz)
-                
-                array_for_type.append(array_for_TAGM)
-            }
-            array.append(array_for_type)
-        }
-        
-        return array
-        
-    }
     
     
     /// Fetch saved Metawear devices
@@ -156,10 +120,11 @@ class MWSensor : NSObject
             .left: AssessmentSettings.sharedManager.preferences[.leftSensor] as? String,
             .right: AssessmentSettings.sharedManager.preferences[.rightSensor] as? String
         ]
-        print("Saved devices are: \(String(describing: savedSensorID[.left])) \(String(describing: savedSensorID[.right]))")
+        print("MwSensor: Saved devices are: \(String(describing: savedSensorID[.left])) \(String(describing: savedSensorID[.right]))")
         // check if already connected
         for (type, id) in savedSensorID {
             if peripheralID[type] != nil && peripheralID[type] == id && MWConnected[type]! {
+                print("MwSensor: fetchSavedMetawear connected")
                 completion(type)
             }
         }
@@ -480,10 +445,12 @@ class MWSensor : NSObject
     func writeDataToFile(filePath : String, fileName: String, type : SensorType)
     {
         let writer:CsvWriter = CsvWriter()
-        writer.writeMetawear(mwSensor: getMwSensonrs(),
-                                type: type,
-                                filePath:
-                                filePath,fileName: fileName)
+        writer.writeMetawear(mwSensor: AssessmentSettings.sharedManager.mwSensors,
+                             type: type,
+                             filePath:filePath,
+                             fileName: fileName)
+        print("agm: \(accGyroMag[.left]?.last?.time)")
+        print("raw: \(accGyroMagRaw[.left]?.last?.time)")
     }
     
     /// When is recording, collect data through data signal subscription and append to corresponding meter data array
@@ -493,7 +460,7 @@ class MWSensor : NSObject
     /// - Parameter record: 3-axis data from sensor
     func addMeterData(_ type: SensorType, _ meter: MeterType, time: Date, record: MblMwCartesianFloat)
     {
-//        print("\(type.text) \(meter.text) \(record)")
+        // print("\(type.text) \(meter.text) \(record)")
         if isRecording {
             var newRecord = TXYZ(time: Int(time.timeIntervalSince(startTime)*1000), x: record.x, y: record.y, z: record.z)
             //        newRecord.time = Int(newRecord.time/20) * 20  // round up to next 20ms time mark
@@ -518,7 +485,7 @@ class MWSensor : NSObject
                 newRecord.z *= 10
                 magnetometer[type]?.append(newRecord)
             }
-            //        print("\(type.text) \(meter.text) \(newRecord)")
+            //print("\(type.text) \(meter.text) \(newRecord)")
         }
     }
     
@@ -526,8 +493,8 @@ class MWSensor : NSObject
     /// Update into instance variable:
     /// accGyroMagRaw :  actual sensor data merged in a sparse matrix with nil as missing value
     /// accGyroMag: interpolated sensor data merged in a 50-Hz or 20ms interval matrix without missing value
-    func mergeData() {
-//        accGyroMag[.left] = accelerometer[.left]! + gyroscope[.left]! + magnetometer[.left]!
+    func mergeData()
+    {
         var buf:[Int:AGM]
         for type in SensorType.allCases {
             if accelerometer[type]!.isEmpty || gyroscope[type]!.isEmpty || magnetometer[type]!.isEmpty {
