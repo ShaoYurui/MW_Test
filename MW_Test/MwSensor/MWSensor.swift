@@ -9,6 +9,11 @@ import Foundation
 import MetaWear
 import MetaWearCpp
 
+protocol BatteryLevelDelegate:AnyObject
+{
+    func batteryLevelUpdate(type: MWSensor.SensorType, batteryLevel: Float)
+}
+
 @objc
 class MWSensor : NSObject
 {
@@ -46,6 +51,7 @@ class MWSensor : NSObject
     var MWConnected: [SensorType:Bool] = [:]
     var batteryLevel: [SensorType:Int] = [:]
     
+    weak var batteryLevelDelegate:BatteryLevelDelegate?
     
     // data collections
     struct TXYZ {
@@ -178,7 +184,9 @@ class MWSensor : NSObject
                 { (context, data) in
                     let state = data!.pointee.valueAs() as MblMwBatteryState
                     let dataPackIn : BridgeData = bridge(ptr: context!)
+                    let batteryLevel = Float(state.charge)/100
                     dataPackIn.mwSensor.batteryLevel[dataPackIn.type] = Int(state.charge)
+                    dataPackIn.mwSensor.batteryLevelDelegate?.batteryLevelUpdate(type: dataPackIn.type, batteryLevel: batteryLevel)
                 }
                 mbl_mw_datasignal_read(battery_signal)
             }
@@ -449,8 +457,6 @@ class MWSensor : NSObject
                              type: type,
                              filePath:filePath,
                              fileName: fileName)
-        print("agm: \(accGyroMag[.left]?.last?.time)")
-        print("raw: \(accGyroMagRaw[.left]?.last?.time)")
     }
     
     /// When is recording, collect data through data signal subscription and append to corresponding meter data array
@@ -497,6 +503,9 @@ class MWSensor : NSObject
     {
         var buf:[Int:AGM]
         for type in SensorType.allCases {
+            accGyroMagRaw[type] = []
+            accGyroMag[type] = []
+            
             if accelerometer[type]!.isEmpty || gyroscope[type]!.isEmpty || magnetometer[type]!.isEmpty {
                 print("WARNING: Not enough data to merge on \(type.text) side")
                 print("Accelerometer data count: \(accelerometer[type]!.count)")
@@ -537,7 +546,7 @@ class MWSensor : NSObject
             }
             // order by time
             let timeSequence = Array(buf.keys).sorted()
-            accGyroMagRaw[type] = []
+            
             for t in timeSequence {
                 accGyroMagRaw[type]?.append(TAGM(time: t,
                                                  ax: buf[t]?.ax, ay: buf[t]?.ay, az: buf[t]?.az,
@@ -565,7 +574,6 @@ class MWSensor : NSObject
         for type in SensorType.allCases {
             var (ai, gi, mi) = (0, 0, 0)
             var axyz, gxyz, mxyz : TXYZ?
-            accGyroMag[type] = []
             for t in stride(from: rangeBegin, through: rangeEnd, by: 20) {
                 (ai, axyz) = interpolateXYZArr(arr: accelerometer[type]!, initial_index: ai, time: t)
                 (gi, gxyz) = interpolateXYZArr(arr: gyroscope[type]!, initial_index: gi, time: t)

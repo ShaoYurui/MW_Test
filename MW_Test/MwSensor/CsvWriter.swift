@@ -29,6 +29,7 @@ class CsvWriter : NSObject
     ///  - parameter fileName: file name
     public func writeAssessmentSummary(assessmentDict:[String:Any], filePath:String, fileName:String) -> URL
     {
+        print(assessmentDict,assessmentDict["countLeftStep"])
         let folderName = filesManager.documentsDirectory.path + "/" + filePath;
         filesManager.createFolder(path: folderName)
         
@@ -41,18 +42,18 @@ class CsvWriter : NSObject
             
             let totalStepCount = (assessmentDict["countLeftStep"] as? Int ?? 0) + (assessmentDict["countRightStep"] as? Int ?? 0)
             
-            var writeString = String(format: "%@ sec,%.2f\n", "Duration", assessmentDict["duration"] as? Float ?? "0")
-            writeString += String(format: "%@,%d\n", "Left step count", assessmentDict["countLeftStep"] as? Int ?? "0")
-            writeString += String(format: "%@,%d\n", "Right step count", assessmentDict["countRightStep"] as? Int ?? "0")
+            var writeString = String(format: "%@ in sec,%.2f\n", "Duration", assessmentDict["duration"] as? Float ?? 0)
+            writeString += String(format: "%@,%d\n", "Left step count", assessmentDict["countLeftStep"] as? Int ?? 0)
+            writeString += String(format: "%@,%d\n", "Right step count", assessmentDict["countRightStep"] as? Int ?? 0)
             writeString += String(format: "%@,%d\n", "Step count", totalStepCount)
-            writeString += String(format: "%@,%.2f\n", "Stride times (Mean)", assessmentDict["strideTimeValue"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f\n", "Stride times (Max)", assessmentDict["maxStrideTime"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f\n", "Stride times (Max)", assessmentDict["minStrideTime"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f\n", "Cadence (steps/min)", assessmentDict["rightCadence"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f\n", "Max cadence (steps/min)", assessmentDict["maxCadence"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f\n", "Min cadence (steps/min)", assessmentDict["minCadence"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f\n", "Coefficient of variation (Left)", assessmentDict["leftCovOfvar"] as? Float ?? "0")
-            writeString += String(format: "%@,%.2f", "Coefficient of variation (Right)", assessmentDict["rightCovOfvar"] as? Float ?? "0")
+            writeString += String(format: "%@,%.2f\n", "Stride times (Mean)", assessmentDict["strideTimeValue"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f\n", "Stride times (Max)", assessmentDict["maxStrideTime"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f\n", "Stride times (Max)", assessmentDict["minStrideTime"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f\n", "Cadence (steps/min)", assessmentDict["rightCadence"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f\n", "Max cadence (steps/min)", assessmentDict["maxCadence"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f\n", "Min cadence (steps/min)", assessmentDict["minCadence"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f\n", "Coefficient of variation (Left)", assessmentDict["leftCovOfvar"] as? Float ?? 0)
+            writeString += String(format: "%@,%.2f", "Coefficient of variation (Right)", assessmentDict["rightCovOfvar"] as? Float ?? 0)
             
             print("assessmentSummary writeString: \(writeString)")
             fileHandler?.write(Data(writeString.utf8))

@@ -1,7 +1,9 @@
 import UIKit
 
 @objc
-class MwSesnsorConnectionViewController: UIViewController {
+class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate {
+    
+    
     var timerCount: Int = 0
     
     @IBOutlet var LeftProgressBar: UIProgressView!
@@ -12,9 +14,10 @@ class MwSesnsorConnectionViewController: UIViewController {
     
     let mwDevices = AssessmentSettings.sharedManager.mwSensors
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mwDevices.batteryLevelDelegate = self
         
         LeftProgressBar.progress = 0
         RightProgressBar.progress = 0
@@ -23,8 +26,8 @@ class MwSesnsorConnectionViewController: UIViewController {
     }
     
     func connectSavedDevices() {
-        updateSensorConnectButtonFetching(type:.left)
-        updateSensorConnectButtonFetching(type:.right)
+        updateSensorConnectButtonConnecting(type:.left)
+        updateSensorConnectButtonConnecting(type:.right)
         
         mwDevices.updateStatus()
         mwDevices.fetchSavedMetawear { [weak self] type in
@@ -32,23 +35,28 @@ class MwSesnsorConnectionViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateSensorConnectButtonConnected(type: type)
                 self.mwDevices.readBatteryLevel()
-                self.updateBatteryLevel()
             }
+        }
+        
+        activateConnectionTimerCountdown(type: .left)
+        activateConnectionTimerCountdown(type: .right)
+        
+    }
+    
+    func batteryLevelUpdate(type: MWSensor.SensorType, batteryLevel: Float) {
+        var targetProgressBar : UIProgressView
+        switch type {
+        case .left:
+            targetProgressBar = LeftProgressBar
+        case .right:
+            targetProgressBar = RightProgressBar
+        }
+        
+        DispatchQueue.main.async {
+            targetProgressBar.progress = batteryLevel
         }
     }
     
-    func updateSensorConnectButtonFetching(type: MWSensor.SensorType) {
-        let targetButton: UIButton
-        switch type {
-        case .left:
-            targetButton = LeftSensorConnectButton
-        case .right:
-            targetButton = RightSensorConnectButton
-        }
-        targetButton.setTitleColor(.blue, for: .normal)
-        targetButton.setTitle("Fetching", for: .normal)
-        targetButton.isEnabled = true
-    }
     
     func updateSensorConnectButtonConnect(type: MWSensor.SensorType) {
         let targetButton: UIButton
@@ -89,26 +97,6 @@ class MwSesnsorConnectionViewController: UIViewController {
         targetButton.isEnabled = true
     }
     
-    func updateBatteryLevel() {
-        DispatchQueue.main.async {
-            Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] timer in
-                guard let self = self else {
-                    timer.invalidate()
-                    return
-                }
-                
-                let leftLevel = Float(self.mwDevices.getBatteryLevel(type: .left) ) / 100.0
-                let rightLevel = Float(self.mwDevices.getBatteryLevel(type: .right) ) / 100.0
-                
-                self.LeftProgressBar.progress = leftLevel
-                self.RightProgressBar.progress = rightLevel
-                
-                if leftLevel != 0 && rightLevel != 0 {
-                    timer.invalidate()
-                }
-            }
-        }
-    }
     
     @IBAction func RightSensorConnectButtonPressed(_ sender: Any) {
         updateSensorConnectButtonConnecting(type:.right)
@@ -131,26 +119,28 @@ class MwSesnsorConnectionViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateSensorConnectButtonConnected(type: type)
                 self.mwDevices.readBatteryLevel()
-                self.updateBatteryLevel()
+                //self.updateBatteryLevel()
             }
         }
+        activateConnectionTimerCountdown(type: type)
         
+    }
+    
+    func activateConnectionTimerCountdown (type: MWSensor.SensorType)
+    {
         var counter = 10 // no of seconds to wait for scan
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             counter = counter - 1
             print("\(type.text) scan: \(counter)")
-            if self.mwDevices.MWConnected[type] == true {
-                DispatchQueue.main.async {
-                    timer.invalidate()
-                    self.mwDevices.stopScan()
-                }
+            if self.mwDevices.MWConnected[type] == true || counter == 0
+            {
+                timer.invalidate()
+                self.mwDevices.stopScan()
             }
-            if self.mwDevices.MWConnected[type] == false || counter == 0
+            if self.mwDevices.MWConnected[type] == false && counter == 0
             {
                 DispatchQueue.main.async {
                     self.updateSensorConnectButtonConnect(type:type)
-                    timer.invalidate()
-                    self.mwDevices.stopScan()
                 }
             }
         }

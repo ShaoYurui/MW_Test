@@ -20,7 +20,7 @@
 		28ED11302A2882E7006AC791 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28ED112E2A2882E7006AC791 /* Main.storyboard */; };
 		28ED11322A2882E8006AC791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28ED11312A2882E8006AC791 /* Assets.xcassets */; };
 		28ED11352A2882E8006AC791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28ED11332A2882E8006AC791 /* LaunchScreen.storyboard */; };
-		28ED11382A2882E8006AC791 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11372A2882E8006AC791 /* main.m */; };
+		28ED11382A2882E8006AC791 /* MainStoryboard_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ED11372A2882E8006AC791 /* MainStoryboard_iPad.m */; };
 		28F5C1852A4185AD002BCDA5 /* MwSensorSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C1842A4185AD002BCDA5 /* MwSensorSummaryViewController.swift */; };
 		28F5C1872A419090002BCDA5 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C1862A419090002BCDA5 /* RecordButton.swift */; };
 		28F5C1892A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5C1882A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift */; };
@@ -47,7 +47,7 @@
 		28ED11312A2882E8006AC791 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28ED11342A2882E8006AC791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28ED11362A2882E8006AC791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		28ED11372A2882E8006AC791 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		28ED11372A2882E8006AC791 /* MainStoryboard_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainStoryboard_iPad.m; sourceTree = "<group>"; };
 		28F5C1842A4185AD002BCDA5 /* MwSensorSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MwSensorSummaryViewController.swift; sourceTree = "<group>"; };
 		28F5C1862A419090002BCDA5 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		28F5C1882A42AC20002BCDA5 /* MwSesnsorConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MwSesnsorConnectionViewController.swift; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 				28ED11312A2882E8006AC791 /* Assets.xcassets */,
 				28ED11332A2882E8006AC791 /* LaunchScreen.storyboard */,
 				28ED11362A2882E8006AC791 /* Info.plist */,
-				28ED11372A2882E8006AC791 /* main.m */,
+				28ED11372A2882E8006AC791 /* MainStoryboard_iPad.m */,
 			);
 			path = MW_Test;
 			sourceTree = "<group>";
@@ -254,7 +254,7 @@
 				286D3A7C2A2C5173004E9568 /* AssessmentSettings.swift in Sources */,
 				28CB2EC42A402FC200314378 /* CsvWriter.swift in Sources */,
 				28F5C1872A419090002BCDA5 /* RecordButton.swift in Sources */,
-				28ED11382A2882E8006AC791 /* main.m in Sources */,
+				28ED11382A2882E8006AC791 /* MainStoryboard_iPad.m in Sources */,
 				286D3A7A2A2C5126004E9568 /* MWSensor.swift in Sources */,
 				28CB2ECE2A416F0200314378 /* MwSensorVideoRecorderViewController.swift in Sources */,
 				28CB2EBF2A40239000314378 /* GaitExercise.swift in Sources */,
@@ -410,9 +410,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MW_Test/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Connect with Metawaer Sensors";
+				INFOPLIST_KEY_NSCameraUsageDescription = "use camera to capture video";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "use microphone to record video";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "to store videos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = Main.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
@@ -444,9 +448,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MW_Test/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Connect with Metawaer Sensors";
+				INFOPLIST_KEY_NSCameraUsageDescription = "use camera to capture video";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "use microphone to record video";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "to store videos";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = Main.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;

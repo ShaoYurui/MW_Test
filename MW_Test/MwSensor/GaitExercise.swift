@@ -85,7 +85,7 @@ class GaitExercise
     
     func doLegAnalysis(side:Int, ay:Float, gz:Float, time: Int)
     {
-        currentTime = time
+        gaitResults["duration"] = Float(time)/1000
         let gyroZ_value : Float
         if STEP_THRESHOLD == 1000000 { // HomeRehab IMU, no change to original logic
             gyroZ_value = max(gz,0)
@@ -173,7 +173,6 @@ class GaitExercise
     
     func updateGaitAnalysis()
     {
-        gaitResults["duration"] = Float(currentTime)/1000
         gaitResults["countLeftStep"] = countStep[LEFT]
         gaitResults["countRightStep"] = countStep[RIGHT]
        

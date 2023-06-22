@@ -10,11 +10,30 @@ class MwSensorSummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Write MwSensor Data into Csv Files
         let fileUrl = mwDevices.writeAssessmentToFile(
             filePath: "MwSensor_\(AssessmentSettings.sharedManager.dateTimeString)",
             fileName: "MwSensor_Summary_\(AssessmentSettings.sharedManager.dateTimeString).csv"
         )
+        
+        // Display CSV files in WebView
+        let htmlContent = convertCsvToHtmlContent(fileUrl)
+        csvSummary.loadHTMLString(htmlContent, baseURL: nil)
+        
+    }
+    
+    @IBAction func discardResultsButtonPressed(_ sender: Any) {
+        do {
+            let folderPath = AssessmentSettings.sharedManager.filesManager.documentsDirectory.path
+            + String(format: "/MwSensor_%@/",        AssessmentSettings.sharedManager.dateTimeString)
+            try AssessmentSettings.sharedManager.filesManager.removeItem(atPath: folderPath)
+            print("Folder and its contents deleted successfully.")
+        } catch {
+            print("Error deleting folder: \(error)")
+        }
+    }
+    
+    @IBAction func saveResultsPressed(_ sender: Any) {
+        // Write MwSensor Data into Csv Files
         
         mwDevices.writeDataToFile(
             filePath: "MwSensor_\(AssessmentSettings.sharedManager.dateTimeString)",
@@ -27,11 +46,8 @@ class MwSensorSummaryViewController: UIViewController {
             fileName: "MwSensor_Left_\(AssessmentSettings.sharedManager.dateTimeString).csv",
             type: .left
         )
-        
-        // Display CSV files in WebView
-        let htmlContent = convertCsvToHtmlContent(fileUrl)
-        csvSummary.loadHTMLString(htmlContent, baseURL: nil)
     }
+    
     
     func convertCsvToHtmlContent(_ fileUrl: URL) -> String {
         let csvFilePath = fileUrl.path

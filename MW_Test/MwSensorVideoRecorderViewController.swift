@@ -104,7 +104,7 @@ class MwSensorVideoRecorderViewController: UIViewController, AVCaptureFileOutput
             recordButton.isRecording = false
             StopRecording()
             
-            let storyboard = UIStoryboard(name: "MainStoryboard_iPad", bundle: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let nextViewController = storyboard.instantiateViewController(withIdentifier: "MwSensorSummaryViewController") as! MwSensorSummaryViewController
             self.present(nextViewController, animated: true, completion: nil)
 
@@ -121,7 +121,7 @@ class MwSensorVideoRecorderViewController: UIViewController, AVCaptureFileOutput
         // set up dataTimeString for the output folder path and file name
         let currentDate = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy_MM_dd_HHmm"
+        dateFormatter.dateFormat = "yyyy_MM_dd_HHmm_ss"
         AssessmentSettings.sharedManager.dateTimeString = dateFormatter.string(from: currentDate)
         
         // set up output file url
