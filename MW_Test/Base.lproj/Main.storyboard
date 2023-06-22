@@ -111,6 +111,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Zhb-ef-suq"/>
                     <connections>
+                        <outlet property="ContinueButton" destination="HDw-n1-18Q" id="qme-Ly-sW9"/>
                         <outlet property="LeftProgressBar" destination="3gi-h7-eBg" id="Xhi-5Q-zkX"/>
                         <outlet property="LeftSensorConnectButton" destination="epZ-0c-ywf" id="Vic-fv-IEZ"/>
                         <outlet property="RightProgressBar" destination="0I6-Ub-2pT" id="Iyv-Wk-e5h"/>
@@ -180,7 +181,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QgM-dq-SBr" userLabel="CameraView">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QgM-dq-SBr" userLabel="CameraView">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
@@ -205,6 +206,10 @@
                                     <constraint firstAttribute="trailing" secondItem="3Iw-R3-9Eo" secondAttribute="trailing" constant="5" id="x8L-Xt-JvJ"/>
                                 </constraints>
                             </view>
+                            <stackView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="XIJ-C9-dgc">
+                                <rect key="frame" x="20" y="660" width="332" height="226"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="uxM-ku-jrg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -216,6 +221,7 @@
                     <navigationItem key="navigationItem" id="c5Z-8C-2Di"/>
                     <connections>
                         <outlet property="CameraView" destination="QgM-dq-SBr" id="dXb-XX-6RU"/>
+                        <outlet property="liveInfoStackView" destination="XIJ-C9-dgc" id="bgl-yh-yaj"/>
                         <outlet property="recordButtonLabel" destination="3Iw-R3-9Eo" id="3yv-zi-duA"/>
                     </connections>
                 </viewController>
@@ -225,7 +231,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zwa-B3-hJM"/>
+        <segue reference="K8K-wE-YD6"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

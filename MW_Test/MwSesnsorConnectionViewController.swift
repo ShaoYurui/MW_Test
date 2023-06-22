@@ -11,6 +11,7 @@ class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate 
     @IBOutlet var RightSensorConnectButton: UIButton!
     @IBOutlet var LeftSensorConnectButton: UIButton!
     @IBOutlet var ExitButton: UIButton!
+    @IBOutlet var ContinueButton: UIButton!
     
     let mwDevices = AssessmentSettings.sharedManager.mwSensors
     
@@ -21,6 +22,7 @@ class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate 
         
         LeftProgressBar.progress = 0
         RightProgressBar.progress = 0
+        ContinueButton.isHidden = true
         
         connectSavedDevices()
     }
@@ -35,12 +37,23 @@ class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate 
                 guard let self = self else { return }
                 self.updateSensorConnectButtonConnected(type: type)
                 self.mwDevices.readBatteryLevel()
+                
+                if self.isAllConnected()
+                {
+                    self.ContinueButton.isHidden = false
+                }
             }
         }
         
         activateConnectionTimerCountdown(type: .left)
         activateConnectionTimerCountdown(type: .right)
         
+    }
+    
+    func isAllConnected() -> Bool
+    {
+        mwDevices.updateStatus()
+        return (mwDevices.MWConnected[.right] ?? false ) && (mwDevices.MWConnected[.left] ?? false)
     }
     
     func batteryLevelUpdate(type: MWSensor.SensorType, batteryLevel: Float) {
@@ -82,6 +95,7 @@ class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate 
         targetButton.setTitleColor(.gray, for: .normal)
         targetButton.setTitle("Connecting", for: .normal)
         targetButton.isEnabled = false
+        ContinueButton.isHidden = true
     }
     
     func updateSensorConnectButtonConnected(type: MWSensor.SensorType) {
@@ -119,11 +133,14 @@ class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate 
                 guard let self = self else { return }
                 self.updateSensorConnectButtonConnected(type: type)
                 self.mwDevices.readBatteryLevel()
-                //self.updateBatteryLevel()
+                
+                if self.isAllConnected()
+                {
+                    self.ContinueButton.isHidden = false
+                }
             }
         }
         activateConnectionTimerCountdown(type: type)
-        
     }
     
     func activateConnectionTimerCountdown (type: MWSensor.SensorType)
@@ -131,17 +148,17 @@ class MwSesnsorConnectionViewController: UIViewController, BatteryLevelDelegate 
         var counter = 10 // no of seconds to wait for scan
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             counter = counter - 1
-            print("\(type.text) scan: \(counter)")
-            if self.mwDevices.MWConnected[type] == true || counter == 0
-            {
-                timer.invalidate()
-                self.mwDevices.stopScan()
-            }
-            if self.mwDevices.MWConnected[type] == false && counter == 0
+            // print("\(type.text) scan: \(counter) \(self.mwDevices.MWConnected[type])")
+            if self.mwDevices.MWConnected[type] != true && counter == 0
             {
                 DispatchQueue.main.async {
                     self.updateSensorConnectButtonConnect(type:type)
                 }
+            }
+            if self.mwDevices.MWConnected[type] == true || counter == 0
+            {
+                timer.invalidate()
+                self.mwDevices.stopScan()
             }
         }
     }

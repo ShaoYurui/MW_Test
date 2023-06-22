@@ -191,7 +191,7 @@ class GaitExercise
             gaitResults["leftCovOfvar"] = covOfvar[LEFT]
             gaitResults["rightCovOfvar"] = covOfvar[RIGHT]
         }
-        
+        self.gaitExerciseDelegate?.exerciseUpdate(gaitResults: gaitResults)
     }
 }
 

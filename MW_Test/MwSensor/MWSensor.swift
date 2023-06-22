@@ -97,7 +97,7 @@ class MWSensor : NSObject
     ]
     
     // GaitExercise update
-    var gaitExercise:GaitExercise = GaitExercise()
+    weak var gaitExercise:GaitExercise?
     
     
     @objc
@@ -427,7 +427,6 @@ class MWSensor : NSObject
         gyroscope = [.left:[], .right:[]]
         magnetometer = [.left:[], .right:[]]
         startTime = Date()
-        gaitExercise = GaitExercise()
         isRecording = true
     }
     
@@ -443,7 +442,7 @@ class MWSensor : NSObject
     func writeAssessmentToFile(filePath : String, fileName: String) -> URL
     {
         let writer:CsvWriter = CsvWriter()
-        let fileUrl = writer.writeAssessmentSummary(assessmentDict: gaitExercise.gaitResults,
+        let fileUrl = writer.writeAssessmentSummary(assessmentDict: gaitExercise?.gaitResults ?? [:],
                                                     filePath: filePath,
                                                     fileName: fileName)
         return fileUrl
@@ -482,7 +481,7 @@ class MWSensor : NSObject
                 gyroscope[type]?.append(newRecord)
                 // update gaitExercise if exists and accelerometer data not empty
                 if !accelerometer[type]!.isEmpty {
-                    gaitExercise.doLegAnalysis(side: type.rawValue, ay: accelerometer[type]!.last!.y, gz: newRecord.z, time: newRecord.time)
+                    gaitExercise?.doLegAnalysis(side: type.rawValue, ay: accelerometer[type]!.last!.y, gz: newRecord.z, time: newRecord.time)
                 }
             case .magnetometer:
                 // output data in milli Gauss, input is micro Tesla
